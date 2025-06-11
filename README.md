@@ -120,11 +120,10 @@ Contributions are welcome! If you have ideas for improvements or want to add mor
 
 ### A Work In Progress
 
-Check back often to see the evolution of the project! **Letter** is a work-in-progress. Updates will come periodically.
+Check back often to see the evolution of the project! **DrugWars_rs** is a work-in-progress. Updates will come periodically.
 
 If you would like to contribute to this project, please do! For instance, if you see some low-hanging fruit or tasks that could add value to the project, I would love to have your insight.
 
 Otherwise, please create an issue for bugs or errors. Since I am a teaching faculty member at Allegheny College, I may not have all the time necessary to quickly fix bugs. I welcome the Open Source Community to further the development of this project. Much thanks in advance.
 
 If you appreciate this project, please consider clicking the project's Star button. :-)
-
