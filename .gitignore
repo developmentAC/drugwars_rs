@@ -1,0 +1,19 @@
+# MacOS #
+#########
+.DS_Store
+*~
+
+# Rust project #
+################
+target/
+
+# bash #
+########
+.bash_history
+
+# Vim #
+#######
+*.swp
+*.swo
+*.project.vim
+
