@@ -450,7 +450,8 @@ impl Game {
                 RED = COLOR_RED,
                 RESET = COLOR_RESET
             );
-            println!("\t Do you want to (f)ight or (r)un?");
+            print!("\t Do you want to (f)ight or (r)un? ");
+            io::stdout().flush().unwrap();
             let mut input = String::new();
             io::stdin().read_line(&mut input).unwrap();
             match input.trim() {
@@ -535,9 +536,13 @@ impl Game {
         println!("\t Where do you want to go?");
         for (i, city) in City::all().iter().enumerate() {
             // println!("\t  {}. {}", i + 1, city.name());
-            println!("\t{my_colour}  {}. {}{RESET}", i + 1, city.name(),
-            my_colour = COLOR_CYAN,
-            RESET = COLOR_RESET); //does cyan work here?
+            println!(
+                "\t{my_colour}  {}. {}{RESET}",
+                i + 1,
+                city.name(),
+                my_colour = COLOR_CYAN,
+                RESET = COLOR_RESET
+            ); //does cyan work here?
         }
         loop {
             print!("\t Enter your choice (0 to exit menu): ");
@@ -545,28 +550,30 @@ impl Game {
             let mut input = String::new();
             io::stdin().read_line(&mut input).unwrap();
             match input.trim().parse::<usize>() {
-            Ok(0) => {
-                println!("\t Exiting travel menu.");
-                break;
-            }
-            Ok(choice) => {
-                if let Some(city) = City::all().get(choice - 1) {
-                self.player.city = *city;
-                self.next_day();
-                break;
-                } else {
-                println!("\t {RED}Invalid city choice. Please try again.{RESET}",
-                    RED = COLOR_RED,
-                    RESET = COLOR_RESET
-                );
+                Ok(0) => {
+                    println!("\t Exiting travel menu.");
+                    break;
                 }
-            }
-            Err(_) => {
-                println!("\t {RED}Invalid input. Please enter a number.{RESET}",
-                RED = COLOR_RED,
-                RESET = COLOR_RESET
-                );
-            }
+                Ok(choice) => {
+                    if let Some(city) = City::all().get(choice - 1) {
+                        self.player.city = *city;
+                        self.next_day();
+                        break;
+                    } else {
+                        println!(
+                            "\t {RED}Invalid city choice. Please try again.{RESET}",
+                            RED = COLOR_RED,
+                            RESET = COLOR_RESET
+                        );
+                    }
+                }
+                Err(_) => {
+                    println!(
+                        "\t {RED}Invalid input. Please enter a number.{RESET}",
+                        RED = COLOR_RED,
+                        RESET = COLOR_RESET
+                    );
+                }
             }
         }
     }
@@ -732,7 +739,7 @@ impl Game {
         );
         for (i, drug) in Drug::all().iter().enumerate() {
             println!(
-                "  {YELLOW}{}. {} (${}){RESET}",
+                "\t  {YELLOW}{}. {} (${}){RESET}",
                 i + 1,
                 drug.name(),
                 self.prices[drug],
@@ -891,6 +898,7 @@ fn main() {
 
     let mut game = Game::new();
     println!("\r Welcome to Drugwars!");
+
     while !game.is_game_over() {
         game.print_status();
         game.buy_sell();
