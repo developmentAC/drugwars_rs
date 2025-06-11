@@ -51,7 +51,7 @@ This game is written in Rust and features colorful terminal output for an engagi
 
    ```zsh
    git clone git@github.com:developmentAC/drugwars_rs.git
-   cd drugwars
+   cd drugwars_rs
    ```
 
 2. **Build the project**:
