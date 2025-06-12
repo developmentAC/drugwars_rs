@@ -31,6 +31,8 @@ const START_DAYS: i32 = 30; // Number of days in the game
 const LOAN_INTEREST: f32 = 0.15; // Daily loan interest rate
 const LOAN_AMOUNT: i32 = 5000; // Initial loan amount
 const MAX_HEALTH: i32 = 10; // Maximum health of the player
+// const START_WEAPONS: i32 = 0; // Starting number of weapons.
+const START_WEAPONS: i32 = 30; // Used for testing the game with weapons.
 // // // // // // // // // // // // // // // // // //
 
 mod toml_extract; // Extract and print the version information according to the toml file
@@ -118,6 +120,7 @@ impl Player {
     // or set LOAN_INTEREST to 0.05 to have 5% daily interest on the loan
     // or set START_CASH to 1000000 and START_SPACE to 1000 to start with 1 million cash and 1000 space
     // or set MAX_HEALTH to 100 and START_DAYS to 100 to have 100 health and 100 days to play
+    // or set START_WEAPONS to 10 so that each finger gets one!
     // But you don't need that, right?!!
 
     fn new() -> Self {
@@ -131,7 +134,8 @@ impl Player {
             health: MAX_HEALTH,
             trenchcoat_space: START_SPACE,
             inventory,
-            weapons: 0,
+            // weapons: 0, //used for debugging ... you never know when you might need it!
+            weapons: START_WEAPONS,
             day: 1,
             city: City::Manhattan,
         }
@@ -219,16 +223,18 @@ impl Game {
             self.player.trenchcoat_space
         );
         println!("\t Inventory:");
+        print_a_line(COLOR_GREEN);
         for drug in Drug::all() {
             let qty = self.player.inventory[&drug];
             if qty > 0 {
                 println!(
-                    "  {CYAN}{}: {}{RESET}",
+                    "\t {CYAN}█  {}: {}{RESET}",
                     drug.name(),
                     qty,
                     CYAN = COLOR_CYAN,
                     RESET = COLOR_RESET
                 );
+                print_a_line(COLOR_GREEN);
             }
         }
         println!("\n\t Current prices:");
@@ -354,9 +360,30 @@ impl Game {
                     15,
                     2,
                     vec![
-                        "\t Officer Hardass yells: 'Freeze, scumbag!'",
-                        "\t A deputy drops his donut and draws his gun!",
-                        "\t The police radio blares: 'Suspect is armed and fabulous!'",
+                    //     "\t Officer Hardass yells: 'Freeze, scumbag!'",
+                    //     "\t A deputy drops his donut and draws his gun!",
+                    //     "\t The police radio blares: 'Suspect is armed and fabulous!'",
+                    "\t A deputy drops his donut and draws his gun, only to trip on the sidewalk and face-plant.",
+                    "\t A deputy drops his donut and draws his gun!",
+                    "\t A deputy gets his badge stuck in a tree: 'This is not how I envisioned my career.'",
+                    "\t A patrol car screeches to a halt: 'We have a situation... of epic proportions!'",
+                    "\t A police officer tries to intimidate the suspect by using a fake mustache, but ends up looking ridiculous instead.",
+                    "\t A rookie cop accidentally arrests a man who looks just like him, leading to an awkward exchange.",
+                    "\t An officer claims to have 'expertly' handcuffed the suspect, only for them to easily slip out of the cuffs.",
+                    "\t An officer gets stuck in the doorway of the suspect's car and has to be pulled out by two other officers.",
+                    "\t Officer Bob mistakes a bag of chips for a stash of drugs and starts searching it with a magnifying glass.",
+                    "\t Officer Hardass yells: 'Freeze, scumbag! But first, let me check my clipboard...'",
+                    "\t Officer Hardass yells: 'Freeze, scumbag!'",
+                    "\t Officer Johnson says: 'I've got you surrounded, suspect... on the other side of this building.'",
+                    "\t Officer Jones shouts: 'I'm not searching you, I'm just... um... admiring your vehicle!'",
+                    "\t Officer Smith barks into the mic: 'What's this? A warrant? No, no, no! I was just, uh, conducting research!'",
+                    "\t The police car gets stuck in the parking lot due to the officer's ineptitude at parallel parking.",
+                    "\t The police chief yells: 'Code 55: Code 55! That means we're out of donuts.'",
+                    "\t The police radio blares: 'Suspect is armed and fabulous! Can we also order a box of donuts?'",
+                    "\t The police radio blares: 'Suspect is armed and fabulous!'",
+                    "\t The police radio crackles: 'All units, we have a report of suspicious activity... like someone eating an entire pizza by themselves.'",
+                    "\t The police sirens are so loud that they shatter the suspect's sunglasses.",
+
                     ],
                 );
             } else {
@@ -373,6 +400,23 @@ impl Game {
                         "\t A rival yells: 'This is our block now!'",
                         "\t Someone throws a bag of oregano at you!",
                         "\t A dealer shouts: 'You call that product?'",
+                        "\t Looks like someone's supply ran out... of dignity!",
+                        "\t I see you're still peddling the same old trash, dude.",
+                        "\t You must have misspelled ' failure' on your storefront sign!",
+                        "\t I heard your product is so bad, it needs its own hazmat suit!",
+                        "\t Looks like you left the competition to me... and my amazing deals!",
+                        "\t Your operation looks like a 3rd-grader's art project gone wrong",
+                        "\t Is that a 'Closed' sign or just a prayer?",
+                        "\t I'm starting a betting pool on how long it takes for you to get shut down.",
+                        "\t You know what they say: 'you can't buy happiness, but I heard they're selling it cheap at your store'",
+                        "\t It looks like someone's trying out for the role of ' failed entrepreneur'... nice try!",
+                        "\t Your reputation is so shot, I think it's still in rehab",
+                        "\t Looks like you took the phrase 'on the rocks' too literally",
+                        "\t I heard your product is so old, it's been known to be used as bookends",
+                        "\t You must have hired a team of experts... at losing",
+                        "\t This block? I think it's still on rent. You're just squatting",
+
+
                     ],
                 );
             }
@@ -820,7 +864,7 @@ impl Game {
         );
         for (i, drug) in Drug::all().iter().enumerate() {
             println!(
-                "  {YELLOW}{}. {} (${}){RESET}",
+                "\t  {YELLOW}{}. {} (${}){RESET}",
                 i + 1,
                 drug.name(),
                 self.prices[drug],
@@ -897,7 +941,14 @@ fn main() {
     toml_extract::main();
 
     let mut game = Game::new();
-    println!("\r Welcome to Drugwars!");
+
+    // The below madness of a loop is used when debugging to remind of the test version of software. Genious, right?! 
+    let mut counter: u32 = 1;
+    while 0 != counter {
+        // println!("\r Welcome to Drugwars!");
+        colour_print("\t Welcome to Drugwars!", "cyan");
+        counter -= 1;
+    }
 
     while !game.is_game_over() {
         game.print_status();
