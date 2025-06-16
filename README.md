@@ -26,12 +26,13 @@ Email: obonhamcarter at allegheny.edu
   - [Contributing](#contributing)
     - [A Work In Progress](#a-work-in-progress)
 
-
 ## Description
 
 Drugwars is a terminal-based role-playing strategy game inspired by the classic DOS game written by John E. Bell. In this version of the game, you play as a drug dealer in New York City who travels between boroughs, to buy and sell drugs. You also have to manage debt while you try to make as much cash as possible in 30 days. Be careful! The loan shark, other dealers and the cops are out to get you, in addition to other random events! Test your business smarts over the course of 30 days to survive, make cash, and pay off your debt. 
 
 This game is written in Rust and features colorful terminal output for an engaging experience. It includes random news flashes that can affect drug prices, adding an element of unpredictability to your strategy.
+
+![Game play](graphics/game_play.png)
 
 ## Features
 
