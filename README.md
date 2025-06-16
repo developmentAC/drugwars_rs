@@ -58,7 +58,7 @@ This game is written in Rust and features colorful terminal output for an engagi
 2. **Build the project**:
 
    ```zsh
-   cargo build --release
+   cargo build 
    ```
 
 3. **Run the game**:
