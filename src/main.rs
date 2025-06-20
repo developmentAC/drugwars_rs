@@ -31,8 +31,8 @@ const START_DAYS: i32 = 30; // Number of days in the game
 const LOAN_INTEREST: f32 = 0.15; // Daily loan interest rate
 const LOAN_AMOUNT: i32 = 5000; // Initial loan amount
 const MAX_HEALTH: i32 = 10; // Maximum health of the player
-// const START_WEAPONS: i32 = 0; // Starting number of weapons.
-const START_WEAPONS: i32 = 30; // Used for testing the game with weapons.
+const START_WEAPONS: i32 = 0; // Starting number of weapons.
+// const START_WEAPONS: i32 = 30; // Used for testing the game with weapons.
 // // // // // // // // // // // // // // // // // //
 
 mod toml_extract; // Extract and print the version information according to the toml file
