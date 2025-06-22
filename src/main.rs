@@ -24,15 +24,17 @@ const COLOR_MAGENTA: &str = "\x1b[35m";
 // // // // // // // // // // // // // // // // //
 // Game constants for starting values and rules
 // These can be tweaked for balancing or testing
-const START_CASH: i32 = 2000; // Player's starting cash
-// const START_CASH: i32 = 2000000; //value for testing
-const START_SPACE: i32 = 100; // Starting trenchcoat space (inventory limit)
+// const START_CASH: i32 = 2000; // Player's starting cash
+const START_CASH: i32 = 2000000; // used for testing with more cash
+const START_SPACE: i32 = 100; // Starting trench coat space (inventory limit)
 const START_DAYS: i32 = 30; // Number of days in the game
 const LOAN_INTEREST: f32 = 0.15; // Daily loan interest rate
-const LOAN_AMOUNT: i32 = 5000; // Initial loan amount
+// const LOAN_AMOUNT: i32 = 5000; // Initial loan amount
+const LOAN_AMOUNT: i32 = 0; // used for testing the game without a loan
 const MAX_HEALTH: i32 = 10; // Maximum health of the player
-const START_WEAPONS: i32 = 0; // Starting number of weapons.
-// const START_WEAPONS: i32 = 30; // Used for testing the game with weapons.
+// const MAX_HEALTH: i32 = 1; // Used for testing health of the player
+// const START_WEAPONS: i32 = 0; // Starting number of weapons.
+const START_WEAPONS: i32 = 30; // Used for testing the game with weapons.
 // // // // // // // // // // // // // // // // // //
 
 mod toml_extract; // Extract and print the version information according to the toml file
@@ -347,7 +349,8 @@ impl Game {
     fn random_fight_event(&mut self) {
         use rand::Rng;
         // 20% chance of a fight event each day
-        if self.rng.gen_bool(0.2) {
+        // if self.rng.gen_bool(0.2) {
+        if self.rng.gen_bool(0.8) { //80% chance of a fight event each day
             let is_cop = self.rng.gen_bool(0.5);
             if is_cop {
                 println!(
@@ -527,7 +530,8 @@ impl Game {
                         break;
                     }
                     // Enemy attacks
-                    let dmg = self.rng.gen_range(1..=5) * enemy_count;
+                    // let dmg = self.rng.gen_range(1..=5) * enemy_count; //seems a bit too much damage!
+                    let dmg = self.rng.gen_range(1..=2) * enemy_count;
                     println!(
                         "\t {RED}{} attacks and deals {} damage!{RESET}",
                         enemy,
@@ -555,7 +559,8 @@ impl Game {
                         );
                         break;
                     } else {
-                        let dmg = self.rng.gen_range(2..=6);
+                        // let dmg = self.rng.gen_range(2..=6); // seems like a too much damage!
+                        let dmg = self.rng.gen_range(1..=3);
                         self.player.health -= dmg;
                         println!(
                             "\t {RED}You failed to escape and took {} damage!{RESET}",
@@ -648,12 +653,13 @@ impl Game {
         }
     }
 
-    // Shop around for trench coat upgrades or weapons
+    // Shop around for trench coat upgrades, weapons, or medicine
     fn shop_around(&mut self) {
         use rand::Rng;
         let mut rng = rand::thread_rng();
         let coat_price = rng.gen_range(1000..=4000);
         let weapon_price = rng.gen_range(1000..=4000);
+        let med_price = rng.gen_range(1000..=4000);
         println!(
             "\t {CYAN}Welcome to the black market!{RESET}",
             CYAN = COLOR_CYAN,
@@ -673,7 +679,13 @@ impl Game {
             YELLOW = COLOR_YELLOW,
             RESET = COLOR_RESET
         );
-        println!("\t  3. Cancel");
+        println!(
+            "\t  3. Medicine (restore health to full) for {YELLOW}${}{RESET}",
+            med_price,
+            YELLOW = COLOR_YELLOW,
+            RESET = COLOR_RESET
+        );
+        println!("\t  4. Cancel");
         print!("\t Enter your choice: ");
         io::stdout().flush().unwrap();
         let mut input = String::new();
@@ -710,6 +722,29 @@ impl Game {
                 } else {
                     println!(
                         "\t {RED}Not enough cash for a weapon.{RESET}",
+                        RED = COLOR_RED,
+                        RESET = COLOR_RESET
+                    );
+                }
+            }
+            "3" => {
+                if self.player.health == MAX_HEALTH {
+                    println!(
+                        "\t {CYAN}Your health is already full!{RESET}",
+                        CYAN = COLOR_CYAN,
+                        RESET = COLOR_RESET
+                    );
+                } else if self.player.cash >= med_price {
+                    self.player.cash -= med_price;
+                    self.player.health = MAX_HEALTH;
+                    println!(
+                        "\t {GREEN}You bought medicine and restored your health to full. Yey!!{RESET}",
+                        GREEN = COLOR_GREEN,
+                        RESET = COLOR_RESET
+                    );
+                } else {
+                    println!(
+                        "\t {RED}Not enough cash for medicine.{RESET}",
                         RED = COLOR_RED,
                         RESET = COLOR_RESET
                     );
