@@ -24,17 +24,17 @@ const COLOR_MAGENTA: &str = "\x1b[35m";
 // // // // // // // // // // // // // // // // //
 // Game constants for starting values and rules
 // These can be tweaked for balancing or testing
-// const START_CASH: i32 = 2000; // Player's starting cash
-const START_CASH: i32 = 2000000; // used for testing with more cash
+const START_CASH: i32 = 2000; // Player's starting cash
+    // const START_CASH: i32 = 2000000; // used for testing with more cash
 const START_SPACE: i32 = 100; // Starting trench coat space (inventory limit)
 const START_DAYS: i32 = 30; // Number of days in the game
 const LOAN_INTEREST: f32 = 0.15; // Daily loan interest rate
-// const LOAN_AMOUNT: i32 = 5000; // Initial loan amount
-const LOAN_AMOUNT: i32 = 0; // used for testing the game without a loan
+const LOAN_AMOUNT: i32 = 5000; // Initial loan amount
+    // const LOAN_AMOUNT: i32 = 0; // used for testing the game without a loan
 const MAX_HEALTH: i32 = 10; // Maximum health of the player
-// const MAX_HEALTH: i32 = 1; // Used for testing health of the player
-// const START_WEAPONS: i32 = 0; // Starting number of weapons.
-const START_WEAPONS: i32 = 30; // Used for testing the game with weapons.
+    // const MAX_HEALTH: i32 = 1; // Used for testing health of the player
+const START_WEAPONS: i32 = 0; // Starting number of weapons.
+    // const START_WEAPONS: i32 = 30; // Used for testing the game with weapons.
 // // // // // // // // // // // // // // // // // //
 
 mod toml_extract; // Extract and print the version information according to the toml file
