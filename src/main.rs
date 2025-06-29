@@ -994,7 +994,6 @@ fn main() {
 
 // Function to display the cheapish-looking banner
 fn show_banner() {
-    //logo design: "ticks", use "█" to replace "/\" chars, "_" replaced with space
     let banner = String::from(
         "
 \t ██████╗    ██████╗    ██╗   ██╗    ██████╗    
